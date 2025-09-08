@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -9,6 +8,7 @@ public class DrawerInteractable : XRGrabInteractable
 	[SerializeField] private XRSocketInteractor keySocket;
 	[SerializeField] private bool isLocked;
 	[SerializeField] private Transform drawerTransform;
+	[SerializeField] private GameObject KeyPointLight;
 
 	private Transform parentTransform;
 	private const string DEFAULT_LAYER = "Default";
@@ -48,7 +48,6 @@ public class DrawerInteractable : XRGrabInteractable
 			isGrabbed = false;
 			ChangeLayerMask(DEFAULT_LAYER);
 		}
-
 		else if (drawerTransform.localPosition.z <= limitPosition.z - limitDistances.z)
 		{
 			isGrabbed = false;
@@ -65,8 +64,6 @@ public class DrawerInteractable : XRGrabInteractable
 			);
 			ChangeLayerMask(DEFAULT_LAYER);
 		}
-
-
 	}
 
 	private void ChangeLayerMask(string mask)
@@ -101,13 +98,14 @@ public class DrawerInteractable : XRGrabInteractable
 	private void OnDrawerExited(SelectExitEventArgs arg0)
 	{
 		isLocked = true;
+		KeyPointLight.SetActive(true);
 		Debug.Log("*** DRAWER LOCKED ***");
 	}
 
 	private void OnDrawerUnlocked(SelectEnterEventArgs arg0)
 	{
 		isLocked = false;
+		KeyPointLight.SetActive(false);
 		Debug.Log("*** DRAWER UNLOCKED ***");
 	}
-
 }
